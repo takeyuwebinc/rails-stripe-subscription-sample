@@ -2,3 +2,6 @@
 <p>Find me in app/views/home/index.html.erb</p>
 
 <p>Hello <%= current_user.name %></p>
+<p>Plan: <%= current_user.plan.name %> (Active Until: <%=l current_user.subscription.active_until %>)</p>
+
+<p><%= link_to "Invoices", invoices_path %></p>

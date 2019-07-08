@@ -1,0 +1,6 @@
+<h1>Invoices#show</h1>
+<p>Find me in app/views/invoices/show.html.erb</p>
+
+<p><%= link_to "Show Details", @invoice.stripe_hosted_invoice_url, data: { turbolinks: false } %></p>
+
+<p>Created At: <%=l @invoice.created_at %></p>
