@@ -18,7 +18,7 @@ class User < ApplicationRecord
   private
 
     def create_stripe_customer
-      stripe_customer = Stripe::Customer.create(name: name, email: email)
+      stripe_customer = Stripe::Customer.create(name: name, email: email, preferred_locales: ["ja"])
       self.stripe_customer_id = stripe_customer.id
     end
 
