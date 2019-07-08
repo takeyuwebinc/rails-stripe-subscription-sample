@@ -1,6 +1,8 @@
 <h1>Invoices#index</h1>
 <p>Find me in app/views/invoices/index.html.erb</p>
 
+<p>後払い請求書が作成されてからここに表示される（ファイナライズされる）のは１時間後です。<a href="https://dashboard.stripe.com/test/invoices">Stripeのインボイスページ</a>から「請求書を送信」することで、手動でファイナライズできます。</a></p>
+
 <ul>
 <% @invoices.each do |invoice| %>
   <li><%= link_to l(invoice.created_at), invoice_path(invoice) %></li>
