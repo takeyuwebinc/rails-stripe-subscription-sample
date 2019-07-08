@@ -20,16 +20,20 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV.fetch('DATABASE_USER') { 'postgres' } %>
+  password: <%= ENV.fetch('DATABASE_PASSWORD') { 'password' } %>
+  host: <%= ENV.fetch('DATABASE_HOST') { 'db' } %>
+  port: <%= ENV.fetch('DATABASE_PORT') { 5432 } %>
 
 development:
   <<: *default
-  database: rails_stripe_subscription_sample_development
+  database: rails_voicememo_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-  #username: rails_stripe_subscription_sample
+  #username: rails_voicememo
 
   # The password associated with the postgres role (username).
   #password:
@@ -57,7 +61,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: rails_stripe_subscription_sample_test
+  database: rails_voicememo_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -80,6 +84,6 @@ test:
 #
 production:
   <<: *default
-  database: rails_stripe_subscription_sample_production
-  username: rails_stripe_subscription_sample
-  password: <%= ENV['RAILS_STRIPE_SUBSCRIPTION_SAMPLE_DATABASE_PASSWORD'] %>
+  database: rails_voicememo_production
+  username: rails_voicememo
+  password: <%= ENV['RAILS_VOICEMEMO_DATABASE_PASSWORD'] %>
