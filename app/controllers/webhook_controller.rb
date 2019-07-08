@@ -15,11 +15,14 @@ class WebhookController < ApplicationController
       # https://stripe.com/docs/api/invoices/object
       user = User.find_by(stripe_customer_id: stripe_invoice.customer)
       user.invoices.create!(stripe_invoice_id: stripe_invoice.id)
+      # TODO: ユーザーに通知。invoice.stripe_hosted_invoice_url からの支払いを求める
     when "invoice.payment_succeeded"
       # 請求書について支払いが完了した
       # サブスクリプションを更新
       subscription = Subscription.find_by(stripe_subscription_id: stripe_invoice.subscription)
       subscription.synchronize_with_stripe!
+      # 次回の支払いを自動に
+      subscription.start_charge_automatically! unless subscription.charge_automatically?
     when "invoice.payment_failed"
       # 支払いに失敗した
       invoice = Invoice.find_by(stripe_invoice_id: stripe_invoice.id)

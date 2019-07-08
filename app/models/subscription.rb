@@ -14,6 +14,16 @@ class Subscription < ApplicationRecord
     update!(active_until: Time.zone.at(stripe_object.current_period_end))
   end
 
+  # 自動請求にする
+  # 一度 Stripe でカード決済を成功させていれば、以降そのカードを使って自動決済できる
+  def start_charge_automatically!
+    Stripe::Subscription.update(stripe_subscription_id, collection_method: "charge_automatically", days_until_due: nil)
+  end
+
+  def charge_automatically?
+    stripe_object.collection_method == "charge_automatically"
+  end
+
   private
 
     def set_initial_plan
