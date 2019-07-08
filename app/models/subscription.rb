@@ -36,7 +36,7 @@ class Subscription < ApplicationRecord
       #
       # - 今回は最初にクレジットカードの登録をさせるのを避けたい かつ
       # - 無料トライアルは設けない
-      # - 後払い
+      # - 後払い（支払い待ちでも使える）
       #
       # を実現したかった。
       #
@@ -44,9 +44,11 @@ class Subscription < ApplicationRecord
       #
       # - `collection_method: 'send_invoice'`
       #   - 請求書を送る
-      # - `days_until_due: 30`
-      #   - 支払期日を30日後にする
+      # - `days_until_due: 14`
+      #   - 支払期日を14日後にする
       #
+      # 加えて、初回請求書をクレジットカードで支払った後は自動決済させたいので
+      # 決済確認後 `Stripe::Subscription.update(stripe_subscription_id, collection_method: "charge_automatically", days_until_due: nil)` する
       stripe_subscription = Stripe::Subscription.create({
         customer: user.stripe_customer_id,
         items: [
@@ -55,7 +57,7 @@ class Subscription < ApplicationRecord
           }
         ],
         collection_method: 'send_invoice',
-        days_until_due: plan.period_days
+        days_until_due: 14
       })
       self.stripe_subscription_id = stripe_subscription.id
       self.active_until = Time.zone.at(stripe_subscription.current_period_end)

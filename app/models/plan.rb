@@ -17,17 +17,6 @@ class Plan < ApplicationRecord
     Plan.find_by(stripe_plan_id: STRIPE_PLAN_ID_MONTHLY)
   end
 
-  def period_days
-    case interval
-    when "month"
-      30
-    when "year"
-      365
-    else
-      0
-    end
-  end
-
   private
 
     def create_stripe_plan
