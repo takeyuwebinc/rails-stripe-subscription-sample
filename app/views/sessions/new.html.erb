@@ -1,0 +1,20 @@
+<h1>Sessions#new</h1>
+<p>Find me in app/views/sessions/new.html.erb</p>
+
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <ul>
+    <% @user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_for @user, url: session_path, local: true do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+  <%= form.label :email %>
+  <%= form.email_field :email %>
+  <%= form.submit "Login" %>
+<% end %>
